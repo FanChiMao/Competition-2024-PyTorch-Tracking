@@ -1,0 +1,4 @@
+[submodule "Detector"]
+	path = Detector
+	url = https://github.com/WongKinYiu/yolov9.git
+
