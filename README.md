@@ -23,15 +23,38 @@
   - Go to the [official website](https://tbrain.trendmicro.com.tw/Competitions/Details/33) to download the datasets, and place them in `./datasets` folder.
 
 
-## Step 1: Train Detector (YOLOv9)
+## Step 1: Train Detector (YOLOv9 model)
+- Preprocess the datasets
+  ```commandline
 
+  ```
 
+- Set the correct data path  
+  Correct the `path` argument in [**`Detector\detector.yaml`**](./Detector/detector.yaml) as the path after previous preprocessing  
+  <br>
 
+- Start training by using following command
+  ```commandline
+  python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
+  ```
+  
 
+## Step 2: Train Extractor (ReID model)
+- Preprocess the datasets
+  ```commandline
+  
+  ```
 
-## Step 2: Train Feature Extractor (ReID model)
+- Set the correct data path  
+  Correct the `path` argument in [**`Extractor\extractor.yaml`**](./Extractor/extractor.yaml) as the path after previous preprocessing  
+  <br>
 
+- Start training by using following command
+  ```commandline
+  python .\Extractor\train_reid_model.py
+  ```
 
+[//]: # (TODO: visualize feature and evaluate)
 
 
 ## Step 3: Design a Tracker (Track algorithm)

@@ -1,0 +1,15 @@
+# Path Setting
+path: C:\AICUP\ReID_dataset  # dataset root dir
+
+# ReId model training hyper-parameters
+lr: 0.0005
+optim: adam
+epochs: 50
+image_size: 224
+train_batch: 32
+valid_batch: 100
+
+model_name: osnet_x1_0
+
+# Model save path
+save_path: result_model/osnet_x1_0
