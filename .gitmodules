@@ -2,3 +2,6 @@
 	path = Detector
 	url = https://github.com/WongKinYiu/yolov9.git
 
+[submodule "Detector/yolov9"]
+	path = Detector/yolov9
+	url = https://github.com/WongKinYiu/yolov9.git
