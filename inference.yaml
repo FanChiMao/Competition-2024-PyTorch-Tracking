@@ -1,0 +1,35 @@
+# [Default Setting]
+Default :
+  RESULT_FOLDER: ./aicup_results
+  FRAME_FOLDER: C:\AICUP\Tracking_dataset\valid\images
+  SELECT_DATE: [1016]
+  SELECT_TIME: [150000]  # 150000 or 190000
+  SELECT_CAMERA: [0]  # 0 ~ 7
+
+  # write mot txt file
+  WRITE_MOT_TXT: true
+  TXT_SAVENAME: r"1016_150000_151900.txt"
+
+  # write final inference video
+  SAVE_OUT_VIDEO: true
+  SAVE_OUT_VIDEO_FPS: 2
+
+
+# [Detector]
+Detector:
+  DETECTOR_WEIGHT: D:\Jonathan\AI_project\ObjectTracking\code\yolov9\runs\train\yolov9-c\weights\best.pt
+  DETECTOR_CONFIDENCE: 0.05
+
+
+# [Extractor]
+Extractor:
+  EXTRACTOR_WEIGHT: D:\Jonathan\AI_project\ObjectTracking\code\yolov9\ReId\log\osnet_x1_0\model\model.pth.tar-50
+  EXTRACTOR_TYPE: osnet_x1_0
+  EXTRACTOR_THRESHOLD: 0.5
+
+
+# [Tracker]
+Tracker:
+  TRACKER_MAX_UNMATCH_FRAME : 1
+
+

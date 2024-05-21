@@ -1,5 +1,7 @@
 from torchreid.reid.utils import FeatureExtractor
-
+import numpy as np
+from scipy.optimize import linear_sum_assignment
+from scipy.spatial.distance import cdist
 
 class ReIDModel(object):
     def __init__(self, trained_weight=None, model_type=None):
@@ -22,3 +24,18 @@ class ReIDModel(object):
         feature_results = self.extractor(image_path_list)
         flattened_features = feature_results.cpu().numpy()
         return flattened_features
+
+
+def match_features(previous_features, current_features, threshold=0.5):
+    # Normalize the feature vectors to compute cosine similarity
+    norm_previous = np.linalg.norm(previous_features, axis=1, keepdims=True)
+    norm_current = np.linalg.norm(current_features, axis=1, keepdims=True)
+    previous_features_normalized = previous_features / norm_previous
+    current_features_normalized = current_features / norm_current
+
+    similarity_matrix = 1 - cdist(previous_features_normalized, current_features_normalized, 'cosine')
+    cost_matrix = 1 - similarity_matrix
+    row_ind, col_ind = linear_sum_assignment(cost_matrix)
+    matched_indices = [(row, col) for row, col in zip(row_ind, col_ind) if similarity_matrix[row, col] >= threshold]
+
+    return matched_indices, similarity_matrix
