@@ -2,7 +2,7 @@
 
 
 ## TEAM_xxxx: Kelvin, Jonathan, Sam, Henry, Harry  
-- [**[AICUP 2024] Multi-Object Multi-Camera Object Tracking**](https://tbrain.trendmicro.com.tw/Competitions/Details/33)  
+- [**AI 驅動出行未來：跨相機多目標車輛追蹤競賽 － 模型組**](https://tbrain.trendmicro.com.tw/Competitions/Details/33)  
 
 
 ## Step 0: Environment Setting
