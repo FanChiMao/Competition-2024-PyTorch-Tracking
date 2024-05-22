@@ -36,11 +36,6 @@ class Track:
     def increment_unmatched(self):
         self.unmatched_count += 1
         predicted_bbox = self.predict_next_position()
-        if not self.is_within_frame(predicted_bbox):
+        if not is_within_frame(predicted_bbox, 1280, 720):
             self.active = False
-
-    @staticmethod
-    def is_within_frame(bbox):
-        x1, y1, x2, y2 = bbox
-        return x1 >= 0 and x2 <= 1280 and y1 >= 0 and y2 <= 720
 
