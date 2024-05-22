@@ -27,7 +27,7 @@
 ## Step 1: Train Detector (YOLOv9 model)
 - Preprocess the datasets
   ```commandline
-
+  python .\Detector\data_prepare.py --AICUP_dir ./datasets/32_33_train_v2/train --YOLOv9_dir ./datasets/detector_datasets --train_ratio 1
   ```
 
 - Set the correct data path  
@@ -36,7 +36,7 @@
 
 - Start training by using following command
   ```commandline
-  python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
+  python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --batch-size 4 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
   ```
   
 

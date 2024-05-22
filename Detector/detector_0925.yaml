@@ -1,0 +1,10 @@
+
+# Path Setting
+path: D:\Jonathan\AI_project\ObjectTracking\code\Competition-2024-PyTorch-Tracking\datasets\detector_datasets\train  # dataset root dir
+train: 0925_train.txt
+val: 0925_valid.txt
+test:
+                    
+# Classes
+names:
+ 0: Car
