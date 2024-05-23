@@ -5,7 +5,6 @@ sys.path.append("Detector/yolov9")
 
 import yaml
 from boxmot import OCSORT, DeepOCSORT
-import os
 import cv2
 import torch
 import numpy as np
@@ -34,10 +33,9 @@ FRAME_FOLDER = config_default['FRAME_FOLDER']
 RESULT_FOLDER = config_default['RESULT_FOLDER']
 os.makedirs(RESULT_FOLDER, exist_ok=True)
 EXP_FOLDER = os.path.join(RESULT_FOLDER, datetime.now().strftime('%Y%m%d%H%M%S'))
-MOT_TXT_FOLDER = os.path.join(EXP_FOLDER, 'mot_txt_results')
+
 TEMP_CROP_FOLDER = os.path.join(EXP_FOLDER, 'crop_results')
 AICUP_CSV_FOLDER = os.path.join(EXP_FOLDER, 'submit_csv_results')
-os.makedirs(MOT_TXT_FOLDER, exist_ok=True)
 os.makedirs(TEMP_CROP_FOLDER, exist_ok=True)
 os.makedirs(AICUP_CSV_FOLDER, exist_ok=True)
 
@@ -50,7 +48,12 @@ if config_default['SAVE_OUT_VIDEO']:
     os.makedirs(VIDEO_FOLDER, exist_ok=True)
     FPS = config_default['SAVE_OUT_VIDEO_FPS']
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    writer = cv2.VideoWriter(f"VIDEO_FOLDER/{SELECT_DATE}_{SELECT_TIME}_{SELECT_CAMERA}.mp4", fourcc, fps=FPS, frameSize=(1280, 720))
+    writer = cv2.VideoWriter(f"{VIDEO_FOLDER}/{SELECT_DATE}_{SELECT_TIME}_{SELECT_CAMERA}.mp4", fourcc, fps=FPS, frameSize=(1280, 720))
+
+if config_default['WRITE_MOT_TXT']:
+    MOT_TXT_FOLDER = os.path.join(EXP_FOLDER, 'mot_txt_results')
+    os.makedirs(MOT_TXT_FOLDER, exist_ok=True)
+    txt_file = os.path.join(MOT_TXT_FOLDER, f"{SELECT_DATE}_{SELECT_TIME}_{SELECT_CAMERA}.txt")
 
 ########################################################################################################################
 # Initialize Detector, Extractor
@@ -69,7 +72,7 @@ frames = glob(os.path.join(FRAME_FOLDER, "*.jpg")) + glob(os.path.join(FRAME_FOL
 for image_path in list(frames):  # list(frames): copy of frames
     image_name_ = image_path.split("\\")[-1]
     date, time_start, time_finish, camera_id, _ = image_name_.split("_")
-    if not (int(date) in SELECT_DATE and int(time_start) in SELECT_TIME and int(camera_id) in SELECT_CAMERA):
+    if not (int(date) == SELECT_DATE and int(time_start) == SELECT_TIME and (SELECT_CAMERA == 'all' or int(camera_id) == SELECT_CAMERA)):
         frames.remove(image_path)
 
 ########################################################################################################################
@@ -111,7 +114,7 @@ for detect, feature in zip(previous_detect, previous_feature):
     if config_default['WRITE_MOT_TXT']:
         x1, y1, x2, y2 = current_box[0], current_box[1], current_box[2], current_box[3]
         mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, init_track.track_id, x1, y1, x2, y2, detect[4])
-        write_txt_by_line(mot_txt_line)
+        write_txt_by_line(txt_file, mot_txt_line)
 
 # Loop other frames (frame 1 to end)
 for frame_path in frames[1:]:
@@ -149,11 +152,12 @@ for frame_path in frames[1:]:
             tracks[prev_idx].update(bbox=bbox, feature=current_features[curr_idx])
             used_indices.add(curr_idx)
             frame_current = plot_box_on_img(frame_current, bbox, tracks[prev_idx].track_id, tracks[prev_idx].color)
-            # if WRITE_MOT_TXT:
-            #     with open(TXT_FILE_PATH, "a+") as f:
-            #         f.write(
-            #             f"{GLOBAL_FRAME_ID},{tracks[prev_idx].track_id},{bbox[0]},{bbox[1]},"
-            #             f"{bbox[2]},{bbox[3]},{current_detects[curr_idx][4]},-1,-1,-1\n")
+
+            if config_default['WRITE_MOT_TXT']:
+                x1, y1, x2, y2 = bbox[0], bbox[1], bbox[2], bbox[3]
+                mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, tracks[prev_idx].track_id, x1, y1, x2, y2, current_detects[curr_idx][4])
+                write_txt_by_line(txt_file, mot_txt_line)
+
 
         for i, feature in enumerate(current_features):
             if i not in used_indices:
@@ -163,10 +167,11 @@ for frame_path in frames[1:]:
                 tracks.append(new_track)
                 frame_current = plot_box_on_img(frame_current, current_box, new_track.track_id, new_track.color)
                 next_track_id += 1
-                # if WRITE_MOT_TXT:
-                #     with open(TXT_FILE_PATH, "a+") as f:
-                #         f.write(
-                #             f"{GLOBAL_FRAME_ID},{new_track.track_id},{current_box[0]},{current_box[1]},{current_box[2]},{current_box[3]},{current_detects[i][4]},-1,-1,-1\n")
+
+                if config_default['WRITE_MOT_TXT']:
+                    x1, y1, x2, y2 = current_box[0], current_box[1], current_box[2], current_box[3]
+                    mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, new_track.track_id, x1, y1, x2, y2, current_detects[i][4])
+                    write_txt_by_line(txt_file, mot_txt_line)
 
         # Optionally deactivate unmatched tracks
         matched_prev_indices = {prev_idx for prev_idx, curr_idx in matched_indices}
@@ -194,10 +199,11 @@ for frame_path in frames[1:]:
             frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
             next_track_id += 1
             cv2.imshow("Test tracking", frame_current)
-            # if WRITE_MOT_TXT:
-            #     with open(TXT_FILE_PATH, "a+") as f:
-            #         f.write(
-            #             f"{GLOBAL_FRAME_ID},{init_track.track_id},{current_box[0]},{current_box[1]},{current_box[2]},{current_box[3]},{detect[4]},-1,-1,-1\n")
+
+            if config_default['WRITE_MOT_TXT']:
+                x1, y1, x2, y2 = current_box[0], current_box[1], current_box[2], current_box[3]
+                mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, init_track.track_id, x1, y1, x2, y2, detect[4])
+                write_txt_by_line(txt_file, mot_txt_line)
 
     elif len(current_features) == 0 and len(previous_feature) != 0:
         tracks = []  # reset tracks

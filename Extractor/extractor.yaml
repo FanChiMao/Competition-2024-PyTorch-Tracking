@@ -1,5 +1,5 @@
 # Path Setting
-path: C:\AICUP\ReID_dataset  # dataset root dir
+path: D:\Jonathan\AI_project\ObjectTracking\code\Competition-2024-PyTorch-Tracking\datasets\extractor_datasets  # dataset root dir
 
 # ReId model training hyper-parameters
 lr: 0.0005

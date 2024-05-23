@@ -1,1 +1,0 @@
-from model.feature_extractor import ReIDModel

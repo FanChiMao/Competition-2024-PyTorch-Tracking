@@ -36,7 +36,7 @@
 
 - Start training by using following command
   ```commandline
-  python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --batch-size 4 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
+  python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --device 0 --batch-size 4 --epochs 50 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
   ```
   
 
@@ -59,6 +59,10 @@
 
 
 ## Step 3: Design a Tracker (Track algorithm)
+- Preprocess the datasets for **evaluating** Tracker results
+  ```commandline
+  python .\Tracker\data_prepare.py --AICUP_dir ./datasets/32_33_train_v2/train --MOT15_dir ./datasets/mot_gt_datasets
+  ```
 
 
 

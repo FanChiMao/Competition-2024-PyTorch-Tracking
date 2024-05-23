@@ -2,6 +2,8 @@ import cv2
 import random
 import numpy as np
 
+random.seed(1234)
+
 
 def get_random_color():
     return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)

@@ -1,6 +1,4 @@
 import torchreid
-
-import os
 import os.path as osp
 from glob import glob
 from tqdm import tqdm
