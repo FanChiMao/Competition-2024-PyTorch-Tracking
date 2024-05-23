@@ -36,7 +36,7 @@ class AICUPDataset(ImageDataset):
                 updated_tracker_id_dict[tracker_id] = updated_tracker_id
                 updated_tracker_id += 1
             stem = os.path.basename(path)[:-4]
-            camera_id, frame_id = map(int, stem.split("_"))
+            _, _, _, camera_id, frame_id = map(int, stem.split("_"))
             data.append((path, updated_tracker_id_dict[tracker_id], camera_id - 1))
         train_data, valid_data = train_test_split(data, test_size=(1 - trainval_ratio), random_state=42)
 
