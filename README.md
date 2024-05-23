@@ -43,7 +43,7 @@
 ## Step 2: Train Extractor (ReID model)
 - Preprocess the datasets
   ```commandline
-  
+  python .\Extractor\data_prepare.py --AICUP_dir ./datasets/32_33_train_v2/train --reid_dir ./datasets/extractor_datasets
   ```
 
 - Set the correct data path  
