@@ -56,3 +56,6 @@ dash
 # Evaluation ------------------------------------------------------------------
 motmetrics
 
+# Ensemble
+ultralytics
+ensemble-boxes

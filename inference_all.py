@@ -1,10 +1,9 @@
 import os
+import shutil
 import sys
-
 sys.path.append("Detector/yolov9")
 
 import yaml
-from boxmot import OCSORT, DeepOCSORT
 import cv2
 import torch
 import numpy as np
@@ -35,9 +34,17 @@ os.makedirs(RESULT_FOLDER, exist_ok=True)
 EXP_FOLDER = os.path.join(RESULT_FOLDER, datetime.now().strftime('%Y%m%d%H%M%S'))
 
 TEMP_CROP_FOLDER = os.path.join(EXP_FOLDER, 'crop_results')
-AICUP_CSV_FOLDER = os.path.join(EXP_FOLDER, 'submit_csv_results')
+YAML_LOG_FOLDER = os.path.join(EXP_FOLDER, 'yaml_log_results')
 os.makedirs(TEMP_CROP_FOLDER, exist_ok=True)
-os.makedirs(AICUP_CSV_FOLDER, exist_ok=True)
+os.makedirs(YAML_LOG_FOLDER, exist_ok=True)
+
+current_file_path = os.path.abspath(__file__)
+with open(current_file_path, 'r', encoding='utf-8') as f:
+    current_file_content = f.read()
+with open(os.path.join(YAML_LOG_FOLDER, "codes_record.py"), 'w', encoding='utf-8') as f:
+    f.write(current_file_content)
+if os.path.exists("inference.yaml"):
+    shutil.copyfile(src="inference.yaml", dst=os.path.join(YAML_LOG_FOLDER, "param_record.yaml"))
 
 SELECT_DATE = config_default['SELECT_DATE']
 SELECT_TIME = config_default['SELECT_TIME']
@@ -59,8 +66,14 @@ if config_default['WRITE_MOT_TXT']:
 # Initialize Detector, Extractor
 # [Detector] Initialize YOLO model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = DetectMultiBackend(weights=config_detector['DETECTOR_WEIGHT'], device=device, fuse=True)
-model = AutoShape(model)
+if config_detector['ENSEMBLE']:  # ensemble model
+    from Detector.ensemble_detector import DetectMultiBackendEnsemble
+    weight_list = config_detector['ENSEMBLE_MODEL_LIST']
+    weight_path_list = config_detector['ENSEMBLE_WEIGHT_LIST']
+    model = DetectMultiBackendEnsemble(weights_list=weight_list, ensemble_weight_list=weight_path_list, device=device)
+else:  # single model
+    model = DetectMultiBackend(weights=config_detector['DETECTOR_WEIGHT'], device=device, fuse=True)
+    model = AutoShape(model)
 
 # [Feature Extractor]
 extractor = ReIDModel(trained_weight=config_extractor['EXTRACTOR_WEIGHT'], model_type=config_extractor['EXTRACTOR_TYPE'])
@@ -79,22 +92,29 @@ for image_path in list(frames):  # list(frames): copy of frames
 # Start Tracking
 # Initialize global variables and configurations
 GLOBAL_FRAME_ID = 1
-next_track_id = 0
+next_track_id = 1
 tracks = []
 
 for frame_index, frame_path in enumerate(frames):
     frame_current = cv2.imread(frame_path)
     results = model(frame_current)
 
+    if not config_detector['ENSEMBLE']:
+        results = results.pred[0]
+
     detection_label = []
     detection_image = []
-    for i, det in enumerate(results.pred[0]):
+    for i, det in enumerate(results):
         label, confidence, bbox = det[5], det[4], det[:4]
         if confidence < config_detector['DETECTOR_CONFIDENCE']:
             continue
         x1, y1, x2, y2 = map(int, bbox)
         class_id = int(label)
-        detection_label.append([x1, y1, x2, y2, confidence.cpu().item(), class_id])
+
+        if not config_detector['ENSEMBLE']:
+            detection_label.append([x1, y1, x2, y2, confidence.cpu().item(), class_id])
+        else:
+            detection_label.append([x1, y1, x2, y2, confidence, class_id])
 
         cropped_image = frame_current[y1:y2, x1:x2, :]
         save_path = os.path.join(TEMP_CROP_FOLDER, f"{os.path.basename(frame_path)[:-4]}_det_{i:04}.png")
@@ -188,6 +208,9 @@ for frame_index, frame_path in enumerate(frames):
         break
 
     GLOBAL_FRAME_ID += 1
+
+if os.path.exists(TEMP_CROP_FOLDER):
+    shutil.rmtree(TEMP_CROP_FOLDER)
 
 cv2.destroyAllWindows()
 if config_default['SAVE_OUT_VIDEO']:
