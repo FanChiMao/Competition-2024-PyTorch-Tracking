@@ -7,7 +7,7 @@ optim: adam
 epochs: 50
 image_size: 224
 train_batch: 32
-valid_batch: 100
+valid_batch: 4
 
 model_name: osnet_x1_0
 

@@ -19,7 +19,7 @@ from common.plot_boxes import get_random_color, plot_box_on_img
 from common.txt_writer import MOT_TXT, write_txt_by_line
 
 
-with open('inference.yaml', 'r') as file:
+with open('inference_develop.yaml', 'r') as file:
     config = yaml.safe_load(file)
 
 config_default = config['Default']

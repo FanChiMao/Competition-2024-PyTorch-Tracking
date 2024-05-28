@@ -8,8 +8,7 @@ from Detector.yolov9.models.common import DetectMultiBackend, AutoShape
 from ensemble_boxes import weighted_boxes_fusion, non_maximum_weighted
 from tqdm import tqdm
 import numpy as np
-from torchvision.ops import nms
-import torch
+
 
 class DetectMultiBackendEnsemble(object):
     def __init__(self, weights_list, ensemble_weight_list, device):
@@ -42,13 +41,13 @@ class DetectMultiBackendEnsemble(object):
 
         for model, weight_name in zip(self.model_instances, self.weight_path_list):
             if "yolov8" in weight_name:
-                results = model.predict(cv_image, conf=0.8, iou=0.8)
+                results = model.predict(cv_image)  # , conf=0.8, iou=0.8
                 boxes = results[0].boxes.xyxyn.tolist()
                 classes = results[0].boxes.cls.tolist()
                 confidences = results[0].boxes.conf.tolist()
                 ensemble_boxes_list.append(boxes)
                 ensemble_scores_list.append(confidences)
-                ensemble_labels_list.append(classes)
+                ensemble_labels_list.append([0 for _ in classes])  # only single class
             else:
                 results = model(cv_image)
                 boxes_list = []
@@ -69,16 +68,7 @@ class DetectMultiBackendEnsemble(object):
         # ensemble model results
         boxes, scores, labels = weighted_boxes_fusion(
             ensemble_boxes_list, ensemble_scores_list, ensemble_labels_list, weights=self.ensemble_weight_list,
-            iou_thr=0.2, skip_box_thr=0.05
+            iou_thr=0.5, skip_box_thr=0.05
         )
-        # iou_threshold = 0.5
         boxes = np.round(boxes * np.array([1280, 720, 1280, 720]))
         return np.concatenate((boxes, scores.reshape(-1, 1), labels.reshape(-1, 1)), axis=1)
-
-
-
-def apply_nms_after_boxes_fusion(boxes, scores, labels, iou_threshold):
-    boxes_tensor = torch.tensor(boxes, dtype=torch.float32)
-    scores_tensor = torch.tensor(scores, dtype=torch.float32)
-    indices = nms(boxes_tensor, scores_tensor, iou_threshold)
-    return boxes[indices], scores[indices], labels[indices]
