@@ -62,7 +62,8 @@ extractor = ReIDModel(trained_weight=config_extractor['EXTRACTOR_WEIGHT'], model
 
 ########################################################################################################################
 # Prepare inference frames
-next_track_id = 0
+
+track_id = 0
 folder_list = os.listdir(FRAME_FOLDER)
 for i, DATE_TIME in enumerate(tqdm(folder_list)):
     TEMP_CROP_FOLDER = os.path.join(EXP_FOLDER, 'crop_results')
@@ -82,11 +83,14 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
 
     # Start Tracking
     # Initialize global variables and configurations
-    GLOBAL_FRAME_ID = 1
-
+    frame_id = 1
+    previous_camera_id = None
     for frame_index, frame_path in enumerate(frames):
         frame_current = cv2.imread(frame_path)
         results = model(frame_current)
+
+        frame_name = os.path.basename(frame_path)
+        camera_id, _ = frame_name.split("_")
 
         if not config_detector['ENSEMBLE']:
             results = results.pred[0]
@@ -113,20 +117,20 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
         current_features = extractor.get_features(detection_image) if len(detection_label) != 0 else np.empty((0, 512))
         current_detects = np.array(detection_label) if len(detection_label) != 0 else np.empty((0, 6))
 
-        if frame_index == 0:  # Initial frame logic
+        if frame_index == 0 or (previous_camera_id is not None and camera_id != previous_camera_id):  # Reset track objects
             tracks = []
-            next_track_id += 1
+            track_id += 1
             for detect, feature in zip(current_detects, current_features):
                 current_box = detect[:4]
-                init_track = Track(next_track_id, detect[-1], current_box, feature, get_random_color())
+                init_track = Track(track_id, detect[-1], current_box, feature, get_random_color())
                 tracks.append(init_track)
                 frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
-                next_track_id += 1
+                track_id += 1
                 cv2.imshow("Test tracking", frame_current)
 
                 if config_default['WRITE_MOT_TXT']:
                     x1, y1, x2, y2 = current_box[0], current_box[1], current_box[2], current_box[3]
-                    mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, init_track.track_id, x1, y1, x2, y2, detect[4])
+                    mot_txt_line = MOT_TXT(frame_id, init_track.track_id, x1, y1, x2, y2, detect[4])
                     write_txt_by_line(txt_file, mot_txt_line)
         else:  # Subsequent frames logic
             previous_features = np.array([track.feature for track in tracks])
@@ -136,26 +140,26 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
                 used_indices = set()
                 for prev_idx, curr_idx in matched_indices:
                     bbox = current_detects[curr_idx][:4]
-                    tracks[prev_idx].update(bbox=bbox, feature=current_features[curr_idx])
+                    tracks[prev_idx].update(bbox=bbox, feature=current_features[curr_idx], mode=config_tracker["TRACKER_MOTION_PREDICT"])
                     used_indices.add(curr_idx)
                     frame_current = plot_box_on_img(frame_current, bbox, tracks[prev_idx].track_id, tracks[prev_idx].color)
 
                     if config_default['WRITE_MOT_TXT']:
                         x1, y1, x2, y2 = bbox[0], bbox[1], bbox[2], bbox[3]
-                        mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, tracks[prev_idx].track_id, x1, y1, x2, y2, current_detects[curr_idx][4])
+                        mot_txt_line = MOT_TXT(frame_id, tracks[prev_idx].track_id, x1, y1, x2, y2, current_detects[curr_idx][4])
                         write_txt_by_line(txt_file, mot_txt_line)
 
                 for i, feature in enumerate(current_features):
                     if i not in used_indices:
                         current_box = current_detects[i][:4]
-                        new_track = Track(next_track_id, current_detects[i][-1], current_box, feature, get_random_color())
+                        new_track = Track(track_id, current_detects[i][-1], current_box, feature, get_random_color())
                         tracks.append(new_track)
                         frame_current = plot_box_on_img(frame_current, current_box, new_track.track_id, new_track.color)
-                        next_track_id += 1
+                        track_id += 1
 
                         if config_default['WRITE_MOT_TXT']:
                             x1, y1, x2, y2 = current_box[0], current_box[1], current_box[2], current_box[3]
-                            mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, new_track.track_id, x1, y1, x2, y2, current_detects[i][4])
+                            mot_txt_line = MOT_TXT(frame_id, new_track.track_id, x1, y1, x2, y2, current_detects[i][4])
                             write_txt_by_line(txt_file, mot_txt_line)
 
                 matched_prev_indices = {prev_idx for prev_idx, curr_idx in matched_indices}
@@ -163,7 +167,7 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
                 for i, track in enumerate(tracks):
                     if track.active:
                         if i not in matched_prev_indices:
-                            track.increment_unmatched()
+                            track.increment_unmatched(mode=config_tracker['TRACKER_MOTION_PREDICT'])
                             if track.unmatched_count > config_tracker['TRACKER_MAX_UNMATCH_FRAME']:
                                 track.active = False
                                 to_remove.append(i)
@@ -176,20 +180,21 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
             elif len(current_features) != 0 and len(previous_features) == 0:
                 for detect, feature in zip(current_detects, current_features):
                     current_box = detect[:4]
-                    init_track = Track(next_track_id, detect[-1], current_box, feature, get_random_color())
+                    init_track = Track(track_id, detect[-1], current_box, feature, get_random_color())
                     tracks.append(init_track)
                     frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
-                    next_track_id += 1
+                    track_id += 1
 
                     if config_default['WRITE_MOT_TXT']:
                         x1, y1, x2, y2 = current_box[0], current_box[1], current_box[2], current_box[3]
-                        mot_txt_line = MOT_TXT(GLOBAL_FRAME_ID, init_track.track_id, x1, y1, x2, y2, detect[4])
+                        mot_txt_line = MOT_TXT(frame_id, init_track.track_id, x1, y1, x2, y2, detect[4])
                         write_txt_by_line(txt_file, mot_txt_line)
 
             elif len(current_features) == 0 and len(previous_features) != 0:
                 tracks = []
-                next_track_id += 1
+                track_id += 1
 
+        previous_camera_id = camera_id
         cv2.imshow("Test tracking", frame_current)
 
         if config_default['SAVE_OUT_VIDEO']:
@@ -198,7 +203,7 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-        GLOBAL_FRAME_ID += 1
+        frame_id += 1
 
     if os.path.exists(TEMP_CROP_FOLDER):
         shutil.rmtree(TEMP_CROP_FOLDER)
@@ -206,5 +211,3 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
     cv2.destroyAllWindows()
     if config_default['SAVE_OUT_VIDEO']:
         writer.release()
-
-
