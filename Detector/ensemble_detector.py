@@ -5,7 +5,7 @@ import cv2
 current_file = os.path.abspath(__file__)
 sys.path.append(os.path.join(current_file, "yolov9"))
 from Detector.yolov9.models.common import DetectMultiBackend, AutoShape
-from ensemble_boxes import weighted_boxes_fusion, non_maximum_weighted
+from ensemble_boxes import weighted_boxes_fusion
 from tqdm import tqdm
 import numpy as np
 
@@ -41,7 +41,7 @@ class DetectMultiBackendEnsemble(object):
 
         for model, weight_name in zip(self.model_instances, self.weight_path_list):
             if "yolov8" in weight_name:
-                results = model.predict(cv_image)  # , conf=0.8, iou=0.8
+                results = model.predict(cv_image)  # conf=0.8, iou=0.8 / conf=0.75, iou=0.5
                 boxes = results[0].boxes.xyxyn.tolist()
                 classes = results[0].boxes.cls.tolist()
                 confidences = results[0].boxes.conf.tolist()
