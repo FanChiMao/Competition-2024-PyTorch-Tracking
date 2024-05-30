@@ -22,8 +22,10 @@
 <details>
   <summary><b>Example demo results</b></summary>
 
-- High movement speed issue  
+- High movement speed issue
+
 https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/22b109dc-f615-400f-ab2d-825cbbfb8047
+
 
 - Unstable connection issue (Heavy)  
 https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/b1e3f8d7-e37e-49c2-a4b2-b60e7249349d
