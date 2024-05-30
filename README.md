@@ -12,23 +12,6 @@
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
 
 
-## 🚗 Demo Results
-### Here are some tracking results on testing dataset.  
-> The competition provide processed frames from CCTV, there are several difficulties to track the vehicle on CCTV: 
-<br> 1. Low FPS (about 1 frame/second): 
-<br> 2. Unstable connection 
-<br> 3. ...
-
-
-
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/78c5553b-91ae-46ac-9275-1afaf393a530
-
-
-
-
-<br>
-
-
 ## 📌 Quick Inference
 ### To reproduce our submit inference results, please following instructions.
 
@@ -198,6 +181,30 @@ https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/7
 </details>
 <br>
 
+## 🚗 Demo Results
+### Here are some tracking results on testing dataset.  
+> The competition provide processed frames from CCTV, there are several difficulties to track the vehicle on CCTV: 
+<br> 1. Low FPS (about 1 frame/second): 
+<br> 2. Unstable connection 
+<br> 3. ...
+
+
+
+Uploading 0903_125957_131610_camera_1.mp4…
+
+
+
+Uploading 0902_130006_131041_camera_2.mp4…
+
+
+
+
+Uploading 1015_180001_183846_camera_6.mp4…
+
+
+
+
+<br>
 
 
 ## 🧾 Reference
