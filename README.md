@@ -53,7 +53,7 @@
 
 <br>
 
-## 📉 Train on scratch
+## 📉 Train from scratch
 ### If you don't want to use our trained model weights, you can consider trained with scratch.
 
 <details>
