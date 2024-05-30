@@ -190,16 +190,17 @@
 
 
 
-Uploading 0903_125957_131610_camera_1.mp4…
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/852d6fce-3aa5-4b79-a48d-b1c733ade37a
 
 
 
-Uploading 0902_130006_131041_camera_2.mp4…
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/17502337-bb3d-47e6-899c-ecea2fdf7b61
 
 
 
 
-Uploading 1015_180001_183846_camera_6.mp4…
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/85105b64-06bb-4a3d-b3e6-929c29b88e8e
 
 
 
