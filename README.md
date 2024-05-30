@@ -21,11 +21,6 @@
 
 
 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/78c5553b-91ae-46ac-9275-1afaf393a530
-
-
-
-
 <br>
 
 
