@@ -15,9 +15,11 @@
 ## 🚗 Demo Results
 ### Here are some tracking results on testing dataset.  
 > The competition provide processed frames from CCTV, there are several difficulties to track the vehicle on CCTV: 
-<br> 1. Low FPS (about 1 frame/second): 
-<br> 2. Unstable connection 
-<br> 3. ...
+<br> 1. High movement speed issue
+<br> 2. Unstable connection issue
+<br> 3. Flare in night issue
+<br> 3. Disconnect issue
+
 
 <details>
   <summary><b>Example demo results</b></summary>
