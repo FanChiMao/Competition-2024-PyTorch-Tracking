@@ -19,7 +19,17 @@
 <br> 2. Unstable connection 
 <br> 3. ...
 
+<details>
+  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 0: Environment Setting</b></span></summary>
 
+  <p>
+    <video width="600" controls>
+      <source src=".\assets\1001_130000_131559_camera_5.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </p>
+
+</details>
 
 <br>
 
