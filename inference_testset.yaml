@@ -1,7 +1,7 @@
 # [Default Setting]
 Default :
   RESULT_FOLDER: ./aicup_results
-  FRAME_FOLDER: D:\Jonathan\AI_project\ObjectTracking\code\Competition-2024-PyTorch-Tracking\datasets\32_33_AI_CUP_testdataset\32_33_AI_CUP_testdataset\AI_CUP_testdata\images
+  FRAME_FOLDER: ./datasets/32_33_AI_CUP_testdataset/AI_CUP_testdata/images
 
   # write mot (AICUP submit) txt file
   WRITE_MOT_TXT: true
@@ -15,25 +15,25 @@ Default :
 Detector:
   ENSEMBLE: true  # if set true, fill the detector_weight_list and corresponding score
   ENSEMBLE_MODEL_LIST: [
-        D:\Jonathan\AI_project\ObjectTracking\code\yolov9\runs\train\yolov9-c\weights\best.pt,
-        F:\yolov9-c_0902\weights\best.pt,
-        D:\Jonathan\AI_project\ObjectTracking\code\yolov8_detector\weights\best.pt,
-        D:\Jonathan\AI_project\ObjectTracking\code\yolov8_world\yolov8\yolov8x-worldv2.pt
+        weights/yolov9-c_0902.pt,
+        weights/yolov9-c_1016.pt,
+        weights/yolov8-x_finetune.pt,
+        weights/yolov8-x_worldv2_pretrained.pt
     ]
   ENSEMBLE_WEIGHT_LIST: [0.8, 0.76, 0.75, 0.7]
 
-  DETECTOR_WEIGHT: D:\Jonathan\AI_project\ObjectTracking\code\yolov9\runs\train\yolov9-c\weights\best.pt
+  DETECTOR_WEIGHT: weights/yolov9-c_0902.pt
   DETECTOR_CONFIDENCE: 0.05
 
 
 # [Extractor]
 Extractor:
-  EXTRACTOR_WEIGHT: D:\Jonathan\AI_project\ObjectTracking\code\yolov9\ReId\log\osnet_x1_0\model\model.pth.tar-50
+  EXTRACTOR_WEIGHT: weights/osnet_x1_0.pth.tar-50
   EXTRACTOR_TYPE: osnet_x1_0
-  EXTRACTOR_THRESHOLD: 0.5
+  EXTRACTOR_THRESHOLD: 0.6
 
 
 # [Tracker]
 Tracker:
-  TRACKER_MOTION_PREDICT: kf  # lr / kf  (Linear / Kalman Filter)
+  TRACKER_MOTION_PREDICT: lr  # lr / kf  (Linear / Kalman Filter)
   TRACKER_MAX_UNMATCH_FRAME : 3

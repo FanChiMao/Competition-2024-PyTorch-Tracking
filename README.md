@@ -13,7 +13,14 @@
 
 
 ## 🚗 Demo Results
-### Here are some tracking results on testing dataset  
+### Here are some tracking results on testing dataset.  
+> The competition provide processed frames from CCTV, there are several difficulties to track the vehicle on CCTV: 
+<br> 1. Low FPS (about 1 frame/second): 
+<br> 2. Unstable connection 
+<br> 3. ...
+
+
+
 
 <br>
 
@@ -43,17 +50,80 @@
     - Place testing set (`32_33_AI_CUP_testdataset` folder) in [./datasets](datasets).  
     <br>
   - **Prepare trained model weights**  
-    - Go to the download the pretrained weights in our [**github release**]().
-    - Place all of the model weights in [./weights](weights)
+    - Go to the download the pretrained weights in our [**release**](https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/releases).
+    - Place all the model weights in [./weights](weights).
+    - Or you can run the python script in [./weights/download_model_weights.py](./weights/download_model_weights.py)
 
 </details>
 
+<details>
+  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 1: Set the yaml file correctly</b></span></summary>
+  
+  - Modify the inference setting ([**inference_testset.yaml**](inference_testset.py)) to prepare inference (following setting is our best setting)
 
+      ```
+        # [Default Setting]
+        Default :
+          RESULT_FOLDER: ./aicup_results
+          FRAME_FOLDER: ./datasets/32_33_AI_CUP_testdataset/AI_CUP_testdata/images
+        
+          # write mot (AICUP submit) txt file
+          WRITE_MOT_TXT: true
+        
+          # write final inference video
+          SAVE_OUT_VIDEO: true
+          SAVE_OUT_VIDEO_FPS: 3
+        
+        
+        # [Detector]
+        Detector:
+          ENSEMBLE: true  # if set true, fill the detector_weight_list and corresponding score
+          ENSEMBLE_MODEL_LIST: [
+                weights/yolov9-c_0902.pt,
+                weights/yolov9-c_1016.pt,
+                weights/yolov8-x_finetune.pt,
+                weights/yolov8-x_worldv2_pretrained.pt
+            ]
+          ENSEMBLE_WEIGHT_LIST: [0.8, 0.76, 0.75, 0.7]
+        
+          DETECTOR_WEIGHT: weights/yolov9-c_0902.pt
+          DETECTOR_CONFIDENCE: 0.05
+        
+        
+        # [Extractor]
+        Extractor:
+          EXTRACTOR_WEIGHT: weights/osnet_x1_0.pth.tar-50
+          EXTRACTOR_TYPE: osnet_x1_0
+          EXTRACTOR_THRESHOLD: 0.6
+        
+        
+        # [Tracker]
+        Tracker:
+          TRACKER_MOTION_PREDICT: lr  # lr / kf  (Linear / Kalman Filter)
+          TRACKER_MAX_UNMATCH_FRAME : 3
 
+      ```
+</details>
+
+<details>
+  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 2: Run inference code</b></span></summary>
+
+  - After setting the correct configuration of yaml file, simply run:
+    ```commandline inference_testset.py
+    python inference_testset.py
+    ```
+
+- ⏱ **We use single RTX 2070 (8 GB) to run the inference, here is the estimation inference time for single/ensemble model:**  
+  - 1 model (YOLOv9c model): about 45 minutes
+  - 2 model (YOLOv9c + YOLOv8x): about 1 hours
+  - 3 model (YOLOv9c + YOLOv8x + YOLOv8world): about 2 hours
+  - 4 model (YOLOv9c + YOLOv8x + YOLOv8world + YOLOv9c): about 2.5 hours
+
+</details>
 
 <br>
 
-## 📉 Train from scratch
+## 📉 Train on scratch
 ### If you don't want to use our trained model weights, you can consider trained with scratch.
 
 <details>

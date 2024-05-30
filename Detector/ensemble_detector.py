@@ -41,7 +41,7 @@ class DetectMultiBackendEnsemble(object):
 
         for model, weight_name in zip(self.model_instances, self.weight_path_list):
             if "yolov8" in weight_name:
-                results = model.predict(cv_image)  # conf=0.8, iou=0.8 / conf=0.75, iou=0.5
+                results = model.predict(cv_image, conf=0.5)
                 boxes = results[0].boxes.xyxyn.tolist()
                 classes = results[0].boxes.cls.tolist()
                 confidences = results[0].boxes.conf.tolist()

@@ -28,7 +28,7 @@ config_extractor = config['Extractor']
 config_tracker = config['Tracker']
 
 ########################################################################################################################
-# Initialize folder setting
+# Initialize folder settings
 FRAME_FOLDER = config_default['FRAME_FOLDER']
 RESULT_FOLDER = config_default['RESULT_FOLDER']
 os.makedirs(RESULT_FOLDER, exist_ok=True)
@@ -36,6 +36,7 @@ EXP_FOLDER = os.path.join(RESULT_FOLDER, datetime.now().strftime('%Y%m%d%H%M%S')
 YAML_LOG_FOLDER = os.path.join(EXP_FOLDER, 'yaml_log_results')
 os.makedirs(YAML_LOG_FOLDER, exist_ok=True)
 
+# Record experiment settings
 current_file_path = os.path.abspath(__file__)
 with open(current_file_path, 'r', encoding='utf-8') as f:
     current_file_content = f.read()
@@ -45,7 +46,8 @@ if os.path.exists("inference_testset.yaml"):
     shutil.copyfile(src="inference_testset.yaml", dst=os.path.join(YAML_LOG_FOLDER, "param_record.yaml"))
 
 ########################################################################################################################
-# Initialize Detector, Extractor
+# Build Detector, Extractor model architecture and load weights
+
 # [Detector] Initialize YOLO model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if config_detector['ENSEMBLE']:  # ensemble model
@@ -61,8 +63,7 @@ else:  # single yolov9 model
 extractor = ReIDModel(trained_weight=config_extractor['EXTRACTOR_WEIGHT'], model_type=config_extractor['EXTRACTOR_TYPE'])
 
 ########################################################################################################################
-# Prepare inference frames
-
+# Start inference test set
 track_id = 0
 folder_list = os.listdir(FRAME_FOLDER)
 for i, DATE_TIME in enumerate(tqdm(folder_list)):

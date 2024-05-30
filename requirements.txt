@@ -60,3 +60,6 @@ motmetrics
 # Ensemble
 ultralytics
 ensemble-boxes
+
+# download pretrained weight
+wget

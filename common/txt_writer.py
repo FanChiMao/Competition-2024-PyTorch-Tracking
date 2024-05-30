@@ -21,5 +21,3 @@ def write_txt_by_line(txt_file_path, mot_txt: MOT_TXT, x1y1wh=True):
         else:  # x1y1x2y2
             f.write(f"{mot_txt.frame_id},{mot_txt.track_id},{mot_txt.x1},{mot_txt.y1},{mot_txt.x2},{mot_txt.y2},"
                     f"{mot_txt.object_class},-1,-1,-1\n")
-
-
