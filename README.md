@@ -20,14 +20,33 @@
 <br> 3. ...
 
 <details>
-  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 0: Environment Setting</b></span></summary>
+  <summary><b>Example demo results</b></summary>
 
-  <p>
-    <video width="600" controls>
-      <source src=".\assets\1001_130000_131559_camera_5.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </p>
+
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/22b109dc-f615-400f-ab2d-825cbbfb8047
+
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/77f081ba-6088-4b60-b0c4-1329919eaadf
+
+
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/b1e3f8d7-e37e-49c2-a4b2-b60e7249349d
+
+
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/a0e5cffd-710b-4094-9e86-2eb4475a8196
+
+
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/1c0cc0b1-7b82-479c-b7b4-85351d68ad8f
+
+
+
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/36a4ea7b-f0f5-4387-97d2-62c2d10a8485
+
+
+
 
 </details>
 
