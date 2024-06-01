@@ -1,6 +1,12 @@
 # requirements
 # Usage: pip install -r requirements.txt
 
+# ReId model ------------------------------------------------------------------
+torchreid
+boxmot
+plotly
+dash
+
 # Base ------------------------------------------------------------------------
 gitpython
 ipython
@@ -13,7 +19,7 @@ PyYAML>=5.3.1
 requests>=2.23.0
 scipy>=1.4.1
 thop>=0.1.1
-torch>=1.7.0
+torch==2.2.0
 torchvision>=0.8.1
 tqdm>=4.64.0
 filterpy
@@ -46,13 +52,6 @@ seaborn>=0.11.0
 # mss
 albumentations>=1.0.3
 pycocotools>=2.0
-
-
-# ReId model ------------------------------------------------------------------
-torchreid
-boxmot
-plotly
-dash
 
 # Evaluation ------------------------------------------------------------------
 motmetrics

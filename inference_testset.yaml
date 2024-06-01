@@ -13,7 +13,7 @@ Default:
 
 # [Detector]
 Detector:
-  ENSEMBLE: true  # if set true, fill the detector_weight_list and corresponding score
+  ENSEMBLE: false  # if set true, fill the detector_weight_list and corresponding score
   ENSEMBLE_MODEL_LIST: [
         weights/yolov9-c_0902.pt,
         weights/yolov9-c_1016.pt,
