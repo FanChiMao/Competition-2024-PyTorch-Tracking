@@ -27,6 +27,28 @@
 
 <br>
 
+<table>
+  <tr>
+    <td colspan="2">
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/a0e5cffd-710b-4094-9e86-2eb4475a8196 
+https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/1c0cc0b1-7b82-479c-b7b4-85351d68ad8f
+    </td>  
+  </tr>
+  <tr>
+    <td colspan="2"><p align="center"><b>Flare influence</b></p></td>
+  </tr>
+  
+  <tr>
+    <td> <img src = "https://imgur.com/lV1CR4H.png" width="400"> </td>
+    <td> <img src = "https://imgur.com/dOjxV93.png" width="400"> </td>
+  </tr>
+  <tr>
+    <td><p align="center"><b>Swin Transformer Layer</b></p></td>
+    <td><p align="center"> <b>Dual up-sample</b></p></td>
+  </tr>
+</table>
+
+
 ---
 > 1. High movement speed issue  
 
