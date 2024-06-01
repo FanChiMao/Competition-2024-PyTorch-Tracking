@@ -1,6 +1,4 @@
 import os
-import sys
-sys.path.append("Detector")
 
 print(">> Download pretrained weights")
 try:
@@ -15,7 +13,7 @@ if not os.path.exists("assets"):
     os.makedirs("assets", exist_ok=True)
 if not os.path.exists("assets/demo_images"):
     try:
-        os.system("python assets/download_demo_images.py")
+        os.system("python assets/download_demo_images.py --target_path assets")
         if not os.path.exists("assets/demo_images"):
             raise "demo_images doesn't exist"
     except Exception as error:
