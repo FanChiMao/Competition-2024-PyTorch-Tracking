@@ -31,9 +31,9 @@ import torch
 import torchvision
 import yaml
 
-from Detector.yolov9_model_colab_usage import TryExcept, emojis
-from Detector.yolov9_model_colab_usage.downloads import gsutil_getsize
-from Detector.yolov9_model_colab_usage.metrics import box_iou, fitness
+from Detector.yolov9_colab_usage.utils import TryExcept, emojis
+from Detector.yolov9_colab_usage.utils.downloads import gsutil_getsize
+from Detector.yolov9_colab_usage.utils.metrics import box_iou, fitness
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[1]  # YOLO root directory

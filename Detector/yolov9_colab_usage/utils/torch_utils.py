@@ -14,8 +14,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-from Detector.yolov9_model_colab_usage.general import LOGGER, check_version, colorstr, file_date, git_describe
-from Detector.yolov9_model_colab_usage.lion import Lion
+from Detector.yolov9_colab_usage.utils.general import LOGGER, check_version, colorstr, file_date, git_describe
+from Detector.yolov9_colab_usage.utils.lion import Lion
 
 LOCAL_RANK = int(os.getenv('LOCAL_RANK', -1))  # https://pytorch.org/docs/stable/elastic/run.html
 RANK = int(os.getenv('RANK', -1))

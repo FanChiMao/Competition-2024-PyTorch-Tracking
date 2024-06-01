@@ -5,8 +5,8 @@ import torch
 import yaml
 from tqdm import tqdm
 
-from Detector.yolov9_model_colab_usage import TryExcept
-from Detector.yolov9_model_colab_usage.general import LOGGER, TQDM_BAR_FORMAT, colorstr
+from Detector.yolov9_colab_usage.utils import TryExcept
+from Detector.yolov9_colab_usage.utils.general import LOGGER, TQDM_BAR_FORMAT, colorstr
 
 PREFIX = colorstr('AutoAnchor: ')
 

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-from Detector.yolov9_model_colab_usage import TryExcept, threaded
+from Detector.yolov9_colab_usage.utils import TryExcept, threaded
 
 
 def fitness(x):

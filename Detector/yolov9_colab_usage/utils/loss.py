@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from Detector.yolov9_model_colab_usage.metrics import bbox_iou
-from Detector.yolov9_model_colab_usage.torch_utils import de_parallel
+from Detector.yolov9_colab_usage.utils.metrics import bbox_iou
+from Detector.yolov9_colab_usage.utils.torch_utils import de_parallel
 
 
 def smooth_BCE(eps=0.1):  # https://github.com/ultralytics/yolov3/issues/238#issuecomment-598028441

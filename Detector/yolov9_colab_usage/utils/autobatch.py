@@ -3,8 +3,8 @@ from copy import deepcopy
 import numpy as np
 import torch
 
-from Detector.yolov9_model_colab_usage.general import LOGGER, colorstr
-from Detector.yolov9_model_colab_usage.torch_utils import profile
+from Detector.yolov9_colab_usage.utils.general import LOGGER, colorstr
+from Detector.yolov9_colab_usage.utils.torch_utils import profile
 
 
 def check_train_batch_size(model, imgsz=640, amp=True):
