@@ -23,7 +23,7 @@ There are several difficulties to track the vehicles on CCTV:
 
 
 <details>
-  <summary><b>Example demo results</b></summary>
+  <summary><b>Example demo results 📷</b></summary>
 
 <br>
 

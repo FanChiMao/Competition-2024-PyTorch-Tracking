@@ -1,7 +1,7 @@
 # [Default Setting]
-Default :
+Default:
   RESULT_FOLDER: ./aicup_results
-  FRAME_FOLDER: ./datasets/32_33_AI_CUP_testdataset/AI_CUP_testdata/images
+  FRAME_FOLDER: ./assets/demo_images  # ./datasets/32_33_AI_CUP_testdataset/AI_CUP_testdata/images
 
   # write mot (AICUP submit) txt file
   WRITE_MOT_TXT: true

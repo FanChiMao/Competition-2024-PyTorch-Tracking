@@ -61,5 +61,5 @@ motmetrics
 ultralytics
 ensemble-boxes
 
-# download pretrained weight
+# download demo data
 wget

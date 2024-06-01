@@ -212,3 +212,5 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
     cv2.destroyAllWindows()
     if config_default['SAVE_OUT_VIDEO']:
         writer.release()
+
+print(f"All inference process is done! Results are saved in: \n{os.path.abspath(EXP_FOLDER)}")
