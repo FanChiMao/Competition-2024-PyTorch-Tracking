@@ -9,6 +9,7 @@
 
 
 [![report](https://img.shields.io/badge/Supplementary-Report-yellow)]()
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1c9WrlZB4_OPnpzf22jhei6grAo9_VLoe?usp=sharing) 
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
 
 
