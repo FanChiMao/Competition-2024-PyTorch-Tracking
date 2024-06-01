@@ -14,12 +14,12 @@
 
 ## 🚗 Demo Results
 ### Here are some tracking results on testing dataset.  
----
-> The competition provide processed frames from CCTV, there are several difficulties to track the vehicle on CCTV: 
-<br> 1. High movement speed issue
-<br> 2. Unstable connection issue
-<br> 3. Flare in night issue
-<br> 4. Disconnect issue
+
+There are several difficulties to track the vehicles on CCTV: 
+1. High movement speed 
+2. Unstable connection 
+3. Flare in night 
+4. Disconnect 
 
 
 <details>
@@ -27,43 +27,29 @@
 
 <br>
 
-| High movement speed | Character |
-| :---:      | ---       |
-| https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/22b109dc-f615-400f-ab2d-825cbbfb8047|          |
 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/a0e5cffd-710b-4094-9e86-2eb4475a8196 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/1c0cc0b1-7b82-479c-b7b4-85351d68ad8f
+1. High movement speed   
+
+  https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/22b109dc-f615-400f-ab2d-825cbbfb8047
 
 
----
-> 1. High movement speed issue  
+2. Unstable connection (Heavy)
 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/22b109dc-f615-400f-ab2d-825cbbfb8047
+  https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/b1e3f8d7-e37e-49c2-a4b2-b60e7249349d
 
----
-> 2. Unstable connection issue (Heavy)
+3. Unstable connection (Slight)
 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/b1e3f8d7-e37e-49c2-a4b2-b60e7249349d
+  https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/77f081ba-6088-4b60-b0c4-1329919eaadf
 
----
-> 3. Unstable connection issue (Slight)
+4. Flare issue
 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/77f081ba-6088-4b60-b0c4-1329919eaadf
+  https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/a0e5cffd-710b-4094-9e86-2eb4475a8196
 
----
-> 4. Flare issue
+  https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/1c0cc0b1-7b82-479c-b7b4-85351d68ad8f
 
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/a0e5cffd-710b-4094-9e86-2eb4475a8196
+6. Disconnect issue
 
----
-> 5. Flare issue
-
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/1c0cc0b1-7b82-479c-b7b4-85351d68ad8f
-
----
-> 6. Disconnect issue
-
-https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/36a4ea7b-f0f5-4387-97d2-62c2d10a8485
+  https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/36a4ea7b-f0f5-4387-97d2-62c2d10a8485
 
 </details>
 
