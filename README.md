@@ -1,26 +1,35 @@
 # [AICUP 2024] Competition-2024-PyTorch-Tracking
 
-
 ## TEAM_5045: Kelvin, Jonathan, Sam, Henry, Harry  
 - [**AI 驅動出行未來：跨相機多目標車輛追蹤競賽 － 模型組**](https://tbrain.trendmicro.com.tw/Competitions/Details/33)  
 
-<a href="https://tbrain.trendmicro.com.tw/Competitions/Details/33"><img src="https://i.imgur.com/3nfLbdW.png" title="source: imgur.com" /></a>  
 
+
+<a href="https://tbrain.trendmicro.com.tw/Competitions/Details/33"><img src="https://i.imgur.com/3nfLbdW.png" title="source: imgur.com" /></a>  
+> In recent years, surveillance camera systems have been widely used on roads due to the demands for
+home security and crime prevention. Since most surveillance systems are currently based on singlecamera recording, each camera operates independently, making it impossible to continue identifying
+moving objects once they leave the field of view. Additionally, in the event of accidents or criminal
+incidents, because each camera records independently and there is no mechanism for cooperative
+operation between cameras, law enforcement agencies must expend significant manpower resources to
+manually search through surveillance recordings to track the paths and trajectories of suspicious vehicles
+or pedestrians. 
 
 
 [![report](https://img.shields.io/badge/Supplementary-Report-yellow)]()
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1c9WrlZB4_OPnpzf22jhei6grAo9_VLoe?usp=sharing) 
+<a href="https://colab.research.google.com/drive/1c9WrlZB4_OPnpzf22jhei6grAo9_VLoe?usp=sharing" target="_blank">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
+</a>
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
 
 
-## 🚗 Demo Results
-### Here are some tracking results on testing dataset.  
 
-There are several difficulties to track the vehicles on CCTV: 
-1. High movement speed 
-2. Unstable connection 
-3. Flare in night 
-4. Disconnect 
+## 🗿 Model Architecture
+<a href="https://imgur.com/QBq40de"><img src="https://i.imgur.com/QBq40de.png" title="source: imgur.com" /></a>
+
+
+## 🚗 Demo Results
+### Here are some tracking results on testing dataset.
+
 
 
 <details>
@@ -53,6 +62,7 @@ There are several difficulties to track the vehicles on CCTV:
   https://github.com/FanChiMao/Competition-2024-PyTorch-Tracking/assets/85726287/36a4ea7b-f0f5-4387-97d2-62c2d10a8485
 
 </details>
+
 
 <br>
 
@@ -155,7 +165,7 @@ There are several difficulties to track the vehicles on CCTV:
 
 <br>
 
-## 📉 Train on scratch
+## ⚙️ Train on scratch
 ### If you don't want to use our trained model weights, you can consider trained with scratch.
 
 <details>
