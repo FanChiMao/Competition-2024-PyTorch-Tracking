@@ -22,6 +22,14 @@ or pedestrians.
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
 
 
+## 🎉 This work earn the 2nd place among 101 teams
+<details>
+  <summary><b>LeaderBoard 🎖️</b></summary>
+<a href="https://imgur.com/j5BbnzQ"><img src="https://i.imgur.com/j5BbnzQ.png" title="source: imgur.com" /></a>
+</details>
+
+
+
 
 ## 🗿 Model Architecture
 <a href="https://imgur.com/QBq40de"><img src="https://i.imgur.com/QBq40de.png" title="source: imgur.com" /></a>
