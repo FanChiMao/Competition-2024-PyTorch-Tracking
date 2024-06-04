@@ -29,7 +29,7 @@ or pedestrians.
 </details>
 
 
-
+<br>
 
 ## 🗿 Model Architecture
 <a href="https://imgur.com/QBq40de"><img src="https://i.imgur.com/QBq40de.png" title="source: imgur.com" /></a>
