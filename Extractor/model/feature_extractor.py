@@ -26,7 +26,7 @@ class ReIDModel(object):
         return flattened_features
 
 
-def match_features(previous_features, current_features, threshold=0.5):
+def match_features(previous_features, current_features, direction_matrix, threshold=0.5, large_value=1e10):
     # Normalize the feature vectors to compute cosine similarity
     norm_previous = np.linalg.norm(previous_features, axis=1, keepdims=True)
     norm_current = np.linalg.norm(current_features, axis=1, keepdims=True)
@@ -35,6 +35,10 @@ def match_features(previous_features, current_features, threshold=0.5):
 
     similarity_matrix = 1 - cdist(previous_features_normalized, current_features_normalized, 'cosine')
     cost_matrix = 1 - similarity_matrix
+
+    # Apply direction constraints
+    cost_matrix[~direction_matrix] = large_value
+
     row_ind, col_ind = linear_sum_assignment(cost_matrix)
     matched_indices = [(row, col) for row, col in zip(row_ind, col_ind) if similarity_matrix[row, col] >= threshold]
 
