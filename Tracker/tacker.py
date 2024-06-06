@@ -59,20 +59,20 @@ def are_directions_opposite(vector1, vector2, tolerance=0.5):
     # Directions are opposite if cosine similarity is less than or equal to the negative of the tolerance
     return cosine_similarity <= -tolerance
 
-class Track:
+class Tracklet:
     def __init__(self, track_id, label, bbox, feature, color):
         self.track_id = track_id
         self.label = label
         self.bbox = bbox
         self.feature = feature
-        self.velocity = np.array([0, 0])  # Initial velocity (x velocity, y velocity)
+        self.center_location = np.array([0, 0])  # Initial velocity (x velocity, y velocity)
         self.direction_vector  = None  # Initial direction
         self.previous_bbox = bbox
         self.color = color
         self.unmatched_count = 0
         self.kf = initialize_kalman_filter()
         self.kf.x[:4] = convert_bbox_to_z(bbox)
-        self.active = True  # Track is currently being updated
+        self.active = True  # Tracklet is currently being updated
 
     def update_direction_vector(self, bbox):
         old_x_center = (self.previous_bbox[0] + self.previous_bbox[2]) / 2
@@ -93,7 +93,7 @@ class Track:
             x1_old, y1_old, x2_old, y2_old = self.bbox
             self.bbox = bbox
             x1, y1, x2, y2 = bbox
-            self.velocity = np.array([(x1 + x2 - x1_old - x2_old) / 2, (y1 + y2 - y1_old - y2_old) / 2])
+            self.center_location = np.array([(x1 + x2 - x1_old - x2_old) / 2, (y1 + y2 - y1_old - y2_old) / 2])
         elif mode == 'kf':
             # Update position using Kalman Filter
             self.kf.update(convert_bbox_to_z(bbox))
@@ -107,7 +107,7 @@ class Track:
         if mode == 'lr':
             # Simple linear motion model
             x1, y1, x2, y2 = self.bbox
-            dx, dy = self.velocity
+            dx, dy = self.center_location
             return [x1 + dx, y1 + dy, x2 + dx, y2 + dy]
         elif mode == "kf":
             # Kalman Filter motion model

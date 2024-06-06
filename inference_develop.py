@@ -13,7 +13,7 @@ from datetime import datetime
 
 from Detector.yolov9.models.common import DetectMultiBackend, AutoShape
 from Extractor.model.feature_extractor import ReIDModel, match_features
-from Tracker.tacker import Track
+from Tracker.tacker import Tracklet
 
 from common.plot_boxes import get_random_color, plot_box_on_img
 from common.txt_writer import MOT_TXT, write_txt_by_line
@@ -105,7 +105,7 @@ previous_detect = np.array(detection_prev_label) if len(detection_prev_label) !=
 
 for detect, feature in zip(previous_detect, previous_feature):
     current_box = detect[:4]
-    init_track = Track(next_track_id, detect[-1], current_box, feature, get_random_color())
+    init_track = Tracklet(next_track_id, detect[-1], current_box, feature, get_random_color())
     tracks.append(init_track)
     frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
     next_track_id += 1
@@ -163,7 +163,7 @@ for frame_path in frames[1:]:
             if i not in used_indices:
                 # Initialize new track for unmatched detections
                 current_box = current_detects[i][:4]
-                new_track = Track(next_track_id, current_detects[i][-1], current_box, feature, get_random_color())
+                new_track = Tracklet(next_track_id, current_detects[i][-1], current_box, feature, get_random_color())
                 tracks.append(new_track)
                 frame_current = plot_box_on_img(frame_current, current_box, new_track.track_id, new_track.color)
                 next_track_id += 1
@@ -194,7 +194,7 @@ for frame_path in frames[1:]:
     elif len(current_features) != 0 and len(previous_feature) == 0:
         for detect, feature in zip(current_detects, current_features):
             current_box = detect[:4]
-            init_track = Track(next_track_id, detect[-1], current_box, feature, get_random_color())
+            init_track = Tracklet(next_track_id, detect[-1], current_box, feature, get_random_color())
             tracks.append(init_track)
             frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
             next_track_id += 1

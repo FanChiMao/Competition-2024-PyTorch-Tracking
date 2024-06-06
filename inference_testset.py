@@ -13,7 +13,7 @@ from datetime import datetime
 
 from Detector.yolov9.models.common import DetectMultiBackend, AutoShape
 from Extractor.model.feature_extractor import ReIDModel, match_features
-from Tracker.tacker import Track, are_directions_opposite
+from Tracker.tacker import Tracklet, are_directions_opposite
 
 from common.plot_boxes import get_random_color, plot_box_on_img
 from common.txt_writer import MOT_TXT, write_txt_by_line
@@ -122,7 +122,7 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
             track_id += 1
             for detect, feature in zip(current_detects, current_features):
                 current_box = detect[:4]
-                init_track = Track(track_id, detect[-1], current_box, feature, get_random_color())
+                init_track = Tracklet(track_id, detect[-1], current_box, feature, get_random_color())
                 tracks.append(init_track)
                 frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
                 track_id += 1
@@ -143,7 +143,7 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
                         if prev_track.direction_vector is None:
                             direction_matrix[prev_idx, curr_idx] = True  # Allow matching if direction is not determined yet
                         else:
-                            temp_track = Track(None, None, curr_bbox[:4], None, None)
+                            temp_track = Tracklet(None, None, curr_bbox[:4], None, None)
                             temp_track.update_direction_vector(curr_bbox[:4])
                             direction_matrix[prev_idx, curr_idx] = not are_directions_opposite(prev_track.direction_vector, temp_track.direction_vector)
 
@@ -163,7 +163,7 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
                 for i, feature in enumerate(current_features):
                     if i not in used_indices:
                         current_box = current_detects[i][:4]
-                        new_track = Track(track_id, current_detects[i][-1], current_box, feature, get_random_color())
+                        new_track = Tracklet(track_id, current_detects[i][-1], current_box, feature, get_random_color())
                         tracks.append(new_track)
                         frame_current = plot_box_on_img(frame_current, current_box, new_track.track_id, new_track.color)
                         track_id += 1
@@ -191,7 +191,7 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
             elif len(current_features) != 0 and len(previous_features) == 0:
                 for detect, feature in zip(current_detects, current_features):
                     current_box = detect[:4]
-                    init_track = Track(track_id, detect[-1], current_box, feature, get_random_color())
+                    init_track = Tracklet(track_id, detect[-1], current_box, feature, get_random_color())
                     tracks.append(init_track)
                     frame_current = plot_box_on_img(frame_current, current_box, init_track.track_id, init_track.color)
                     track_id += 1
