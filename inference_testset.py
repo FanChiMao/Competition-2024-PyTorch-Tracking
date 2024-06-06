@@ -13,7 +13,7 @@ from datetime import datetime
 
 from Detector.yolov9.models.common import DetectMultiBackend, AutoShape
 from Extractor.model.feature_extractor import ReIDModel, match_features
-from Tracker.tacker import Track
+from Tracker.tacker import Track, are_directions_opposite
 
 from common.plot_boxes import get_random_color, plot_box_on_img
 from common.txt_writer import MOT_TXT, write_txt_by_line
@@ -28,7 +28,7 @@ config_extractor = config['Extractor']
 config_tracker = config['Tracker']
 
 ########################################################################################################################
-# Initialize folder settings
+# Initialize folder setting
 FRAME_FOLDER = config_default['FRAME_FOLDER']
 RESULT_FOLDER = config_default['RESULT_FOLDER']
 os.makedirs(RESULT_FOLDER, exist_ok=True)
@@ -36,7 +36,6 @@ EXP_FOLDER = os.path.join(RESULT_FOLDER, datetime.now().strftime('%Y%m%d%H%M%S')
 YAML_LOG_FOLDER = os.path.join(EXP_FOLDER, 'yaml_log_results')
 os.makedirs(YAML_LOG_FOLDER, exist_ok=True)
 
-# Record experiment settings
 current_file_path = os.path.abspath(__file__)
 with open(current_file_path, 'r', encoding='utf-8') as f:
     current_file_content = f.read()
@@ -46,8 +45,7 @@ if os.path.exists("inference_testset.yaml"):
     shutil.copyfile(src="inference_testset.yaml", dst=os.path.join(YAML_LOG_FOLDER, "param_record.yaml"))
 
 ########################################################################################################################
-# Build Detector, Extractor model architecture and load weights
-
+# Initialize Detector, Extractor
 # [Detector] Initialize YOLO model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if config_detector['ENSEMBLE']:  # ensemble model
@@ -63,7 +61,8 @@ else:  # single yolov9 model
 extractor = ReIDModel(trained_weight=config_extractor['EXTRACTOR_WEIGHT'], model_type=config_extractor['EXTRACTOR_TYPE'])
 
 ########################################################################################################################
-# Start inference test set
+# Prepare inference frames
+PATH = r"F:\results\0903_125957_131610"
 track_id = 0
 folder_list = os.listdir(FRAME_FOLDER)
 for i, DATE_TIME in enumerate(tqdm(folder_list)):
@@ -136,8 +135,19 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
         else:  # Subsequent frames logic
             previous_features = np.array([track.feature for track in tracks])
 
+            # Set direction matrix for calculate features matching
+            direction_matrix = np.zeros((len(previous_features), len(current_features)), dtype=bool)
             if len(previous_features) != 0 and len(current_features) != 0:
-                matched_indices, similarity_matrix = match_features(previous_features, current_features, config_extractor['EXTRACTOR_THRESHOLD'])
+                for prev_idx, prev_track in enumerate(tracks):
+                    for curr_idx, curr_bbox in enumerate(current_detects):
+                        if prev_track.direction_vector is None:
+                            direction_matrix[prev_idx, curr_idx] = True  # Allow matching if direction is not determined yet
+                        else:
+                            temp_track = Track(None, None, curr_bbox[:4], None, None)
+                            temp_track.update_direction_vector(curr_bbox[:4])
+                            direction_matrix[prev_idx, curr_idx] = not are_directions_opposite(prev_track.direction_vector, temp_track.direction_vector)
+
+                matched_indices, similarity_matrix = match_features(previous_features, current_features, direction_matrix, config_extractor['EXTRACTOR_THRESHOLD'])
                 used_indices = set()
                 for prev_idx, curr_idx in matched_indices:
                     bbox = current_detects[curr_idx][:4]
@@ -212,5 +222,3 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
     cv2.destroyAllWindows()
     if config_default['SAVE_OUT_VIDEO']:
         writer.release()
-
-print(f"All inference process is done! Results are saved in: \n{os.path.abspath(EXP_FOLDER)}")
