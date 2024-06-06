@@ -47,6 +47,18 @@ def convert_x_to_bbox(x, score=None):
     return bbox
 
 
+def are_directions_opposite(vector1, vector2, tolerance=0.5):
+    # Calculate the dot product and magnitudes
+    dot_product = np.dot(vector1, vector2)
+    magnitude1 = np.linalg.norm(vector1)
+    magnitude2 = np.linalg.norm(vector2)
+
+    # Calculate the cosine similarity
+    cosine_similarity = dot_product / (magnitude1 * magnitude2)
+
+    # Directions are opposite if cosine similarity is less than or equal to the negative of the tolerance
+    return cosine_similarity <= -tolerance
+
 class Track:
     def __init__(self, track_id, label, bbox, feature, color):
         self.track_id = track_id
@@ -54,14 +66,29 @@ class Track:
         self.bbox = bbox
         self.feature = feature
         self.velocity = np.array([0, 0])  # Initial velocity (x velocity, y velocity)
+        self.direction_vector  = None  # Initial direction
+        self.previous_bbox = bbox
         self.color = color
         self.unmatched_count = 0
         self.kf = initialize_kalman_filter()
         self.kf.x[:4] = convert_bbox_to_z(bbox)
         self.active = True  # Track is currently being updated
 
+    def update_direction_vector(self, bbox):
+        old_x_center = (self.previous_bbox[0] + self.previous_bbox[2]) / 2
+        old_y_center = (self.previous_bbox[1] + self.previous_bbox[3]) / 2
+        new_x_center = (bbox[0] + bbox[2]) / 2
+        new_y_center = (bbox[1] + bbox[3]) / 2
+
+        dx = new_x_center - old_x_center
+        dy = new_y_center - old_y_center
+
+        self.direction_vector = np.array([dx, dy])
+        self.previous_bbox = bbox
+
     def update(self, bbox, feature, mode='lr'):
-        if mode == 'linear':
+        self.update_direction_vector(bbox)
+        if mode == 'lr':
             # Update position and calculate new velocity
             x1_old, y1_old, x2_old, y2_old = self.bbox
             self.bbox = bbox
@@ -72,7 +99,7 @@ class Track:
             self.kf.update(convert_bbox_to_z(bbox))
             self.bbox = convert_x_to_bbox(self.kf.x)
         else:
-            raise ValueError("Motion model only support \"lr\" (linear) or \"kf\" (Kalman Filter)")
+            raise ValueError(f"Motion model only support \"lr\" (linear) or \"kf\" (Kalman Filter), get {mode}")
         self.feature = feature
         self.unmatched_count = 0
 
@@ -87,9 +114,9 @@ class Track:
             self.kf.predict()
             return convert_x_to_bbox(self.kf.x)
         else:
-            raise ValueError("Motion model only support \"lr\" (linear) or \"kf\" (Kalman Filter)")
+            raise ValueError(f"Motion model only support \"lr\" (linear) or \"kf\" (Kalman Filter), get {mode}")
 
-    def increment_unmatched(self, mode="lr"):
+    def increment_unmatched(self, mode):
         self.unmatched_count += 1
         predicted_bbox = self.predict_next_position(mode)
         if not is_within_frame(predicted_bbox, 1280, 720):
