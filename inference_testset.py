@@ -145,9 +145,12 @@ for i, DATE_TIME in enumerate(tqdm(folder_list)):
                         else:
                             temp_track = Tracklet(None, None, curr_bbox[:4], None, None)
                             temp_track.update_direction_vector(curr_bbox[:4])
-                            direction_matrix[prev_idx, curr_idx] = not are_directions_opposite(prev_track.direction_vector, temp_track.direction_vector)
+                            direction_matrix[prev_idx, curr_idx] = \
+                                not are_directions_opposite(prev_track.direction_vector, temp_track.direction_vector)
 
-                matched_indices, similarity_matrix = match_features(previous_features, current_features, direction_matrix, config_extractor['EXTRACTOR_THRESHOLD'])
+                matched_indices, similarity_matrix = (
+                    match_features(previous_features, current_features, direction_matrix, config_extractor['EXTRACTOR_THRESHOLD'])
+                )
                 used_indices = set()
                 for prev_idx, curr_idx in matched_indices:
                     bbox = current_detects[curr_idx][:4]

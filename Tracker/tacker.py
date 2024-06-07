@@ -57,6 +57,7 @@ def are_directions_opposite(vector1, vector2, tolerance=0.5):
     cosine_similarity = dot_product / (magnitude1 * magnitude2)
 
     # Directions are opposite if cosine similarity is less than or equal to the negative of the tolerance
+    # if set to 0.5 two vectors are 120 degree
     return cosine_similarity <= -tolerance
 
 class Tracklet:
