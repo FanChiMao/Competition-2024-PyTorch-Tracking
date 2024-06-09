@@ -1,6 +1,5 @@
 import os
 import wget
-import shutil
 import zipfile
 import argparse
 

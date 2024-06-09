@@ -23,7 +23,7 @@ class DetectMultiBackendEnsemble(object):
             if "yolov8" in weight:
                 from ultralytics import YOLO
                 model = YOLO(weight)
-                if "world" in weight:
+                if "world" in weight:  # YOLO-world
                     model.set_classes(["car", "bus"])
             else:  # yolov9
                 model = DetectMultiBackend(weights=weight, device=self.device, fuse=True)
@@ -70,5 +70,6 @@ class DetectMultiBackendEnsemble(object):
             ensemble_boxes_list, ensemble_scores_list, ensemble_labels_list, weights=self.ensemble_weight_list,
             iou_thr=0.5, skip_box_thr=0.05
         )
+
         boxes = np.round(boxes * np.array([1280, 720, 1280, 720]))
         return np.concatenate((boxes, scores.reshape(-1, 1), labels.reshape(-1, 1)), axis=1)

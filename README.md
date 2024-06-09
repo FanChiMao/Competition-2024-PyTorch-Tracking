@@ -1,10 +1,10 @@
 # [AICUP 2024] Competition-2024-PyTorch-Tracking
 
+📹 **Extremely low frame-rate (1 fps) video object tracking challenge**  
+
 ## TEAM_5045: Kelvin, Jonathan, Sam, Henry, Harry  
 - [**AI 驅動出行未來：跨相機多目標車輛追蹤競賽 － 模型組**](https://tbrain.trendmicro.com.tw/Competitions/Details/33)  
-
-
-
+  
 <a href="https://tbrain.trendmicro.com.tw/Competitions/Details/33"><img src="https://i.imgur.com/3nfLbdW.png" title="source: imgur.com" /></a>  
 > In recent years, surveillance camera systems have been widely used on roads due to the demands for
 home security and crime prevention. Since most surveillance systems are currently based on singlecamera recording, each camera operates independently, making it impossible to continue identifying
@@ -22,7 +22,7 @@ or pedestrians.
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
 
 
-## 🎉 This work earn the 2nd place among 101 teams
+## 🎉 This work earn the 2nd place among 286 participated teams
 <details>
   <summary><b>LeaderBoard 🎖️</b></summary>
 <a href="https://imgur.com/j5BbnzQ"><img src="https://i.imgur.com/j5BbnzQ.png" title="source: imgur.com" /></a>
@@ -30,9 +30,6 @@ or pedestrians.
 
 
 <br>
-
-## 🗿 Model Architecture
-<a href="https://imgur.com/QBq40de"><img src="https://i.imgur.com/QBq40de.png" title="source: imgur.com" /></a>
 
 
 ## 🚗 Demo Results
@@ -74,6 +71,14 @@ or pedestrians.
 
 <br>
 
+## 🗿 Model Architecture
+<a href="https://imgur.com/QBq40de"><img src="https://i.imgur.com/QBq40de.png" title="source: imgur.com" /></a>
+
+
+## 👀 Design the Tracker for low frame-rate tracking
+
+[//]: # (TODO)
+
 
 ## 📌 Quick Inference
 ### To reproduce our submit inference results, please following instructions.
@@ -109,7 +114,7 @@ or pedestrians.
 <details>
   <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 1: Set the yaml file correctly</b></span></summary>
   
-  - Modify the inference setting ([**inference_testset.yaml**](inference_testset.py)) to prepare inference (following setting is our best setting)
+  - Modify the inference setting ([**inference_testset.yaml**](inference_testset.py)) to prepare inference (following setting is our best submitted setting)
 
       ```
         # [Default Setting]
@@ -202,44 +207,119 @@ or pedestrians.
 <details>
   <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 1: Train Detector (YOLOv9-c model)</b></span></summary>
 
-  - Preprocess the datasets
-    ```commandline
-    python .\Detector\data_prepare.py --AICUP_dir ./datasets/32_33_train_v2/train --YOLOv9_dir ./datasets/detector_datasets --train_ratio 1
+### 1. Preprocess the datasets  
+- After downloading the dataset from official website, simply run  
+
     ```
-  
+    python .\Detector\yolov9\data_prepare.py --AICUP_dir ./datasets/32_33_train_v2/train --YOLOv9_dir ./datasets/detector_datasets --train_ratio 1
+    ```
+
+### 2. Train YOLOv9 Detector
   - Set the correct data path  
-    Correct the `path` argument in [**Detector\detector.yaml**](./Detector/detector.yaml) as the path after previous preprocessing  
+    Correct the `path` argument in [**Detector\detector.yaml**](Detector/yolov9/detector.yaml) as the path after previous preprocessing  
     <br>
   
   - Start training by using following command
-    ```commandline
-    python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --device 0 --batch-size 4 --epochs 50 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
+    ```
+    python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\yolov9\detector.yaml --device 0 --batch-size 4 --epochs 50 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
     ```
   
-  - 📑 For more details about the `Detector` of our method, you can check [**here**](Detector/README.md).
+💬 For more details about the `Detector` of our method, you can check [**here**](Detector/README.md).
+<br>
+
+</details>
+
+<details>
+  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 2: Train Detector with External Datasets (YOLOv8-x model)</b></span></summary>
+    
+### 1. Fetch Data  
+- BDD100K  
+[DOWNLOAD LINK](https://dl.cv.ethz.ch/bdd100k/data/)
+Download 3 of the following files 100k_images_train.zip, 100k_images_val.zip and bdd100k_det_20_labels_trainval.zip.
+Unzip 3 files and organize the directory:  
+
+    ```
+    bdd100k
+      - images
+        - 100k
+          - train
+            - XXXX.jpg
+            - ...
+          - val
+            - XXXX.jpg
+            - ...
+      - labels
+        - det_20
+          - det_train.json
+          - det_val.json
+    ```
+- UA-DETRACE  
+[DOWNLOAD LINK](https://www.kaggle.com/datasets/dtrnngc/ua-detrac-dataset)
+Download the dataset from Kaggle
+Unzip the file and keeps only DETRAC_Upload folder  
+
+    ```
+    DETRAC_Upload
+      - images
+        - train
+          - XXXX.jpg
+          - ...
+        - val
+          - XXXX.jpg
+          - ...
+      - labels
+        - train
+          - XXX.txt
+          - ...
+        - val
+          - XXX.txt
+          - ...
+    ```  
+
+### 2. Data Preparation  
+
+This dataset is can only available on T-Brain Machine Learning Competition site (not v2 version)  
+<br>
+Run the following command to merge 3 datasets into one  
+
+```
+python prepare_dataset.py --aicup AICUP_DATASET_DIR --uadetrac UADETRAC_DATASET_DIR --bdd100k BDD100K_DATASET_DIR --output OUTPUT_DIR
+```
+- Note that in L44 of prepare_dataset.py, we only use images and labels in 10/16 for validation
+
+### 3. Train YOLOv8 Detector
+Run the following command to train yolov8 detector
+```
+python train_detecctor.py --data_dir DATA_DIR
+```
+💬 For more details about the `Detector` of our method, you can check [**here**](Detector/README.md).
+<br>
 
 </details>
 
 
 <details>
-  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 2: Train Extractor (ReID model)</b></span></summary>
+  <summary><span style="font-size: 1.1em; vertical-align: middle;"><b>Step 3: Train Extractor (ReID model)</b></span></summary>
 
 
-  - Preprocess the datasets
-    ```commandline
+### 1. Preprocess the datasets
+- After downloading the dataset from official website, simply run  
+
+    ```
     python .\Extractor\data_prepare.py --AICUP_dir ./datasets/32_33_train_v2/train --reid_dir ./datasets/extractor_datasets
     ```
-  
+
+### 2. Train OSNet Extractor
   - Set the correct data path  
     Correct the `path` argument in [**Extractor\extractor.yaml**](./Extractor/extractor.yaml) as the path after previous preprocessing  
     <br>
   
   - Start training by using following command
-    ```commandline
+    ```
     python .\Extractor\train_reid_model.py
     ```
   
-  - 📑 For more details about the `Extractor` of our method, you can check [**here**](Extractor/README.md).
+💬 For more details about the `Extractor` of our method, you can check [**here**](Extractor/README.md).
 
 </details>
 <br>
@@ -254,8 +334,8 @@ or pedestrians.
 <br>
 
 ## 📫 Contact Us
-- **Kelvin**: 
-- **Jonathan**: [qaz5517359@gmail.com]()
-- **Sam**: 
-- **Henry**: 
-- **Harry**:
+- **Kelvin**: [fxp61005@gmail.com]()  
+- **Jonathan**: [qaz5517359@gmail.com]()  
+- **Sam**: [a839212013@gmail.com]()  
+- **Henry**: [jupiter5060812@gmail.com]()
+- **Harry**: [ms024929548@gmail.com]()  
