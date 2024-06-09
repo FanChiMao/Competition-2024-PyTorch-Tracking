@@ -20,6 +20,7 @@ or pedestrians.
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
 </a>
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/FanChiMao/Competition-2024-PyTorch-Tracking/total)]()
 
 
 ## 🎉 This work earn the 2nd place among 286 participated teams
