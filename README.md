@@ -217,12 +217,12 @@ or pedestrians.
 
 ### 2. Train YOLOv9 Detector
   - Set the correct data path  
-    Correct the `path` argument in [**Detector\detector.yaml**](Detector/yolov9/detector.yaml) as the path after previous preprocessing  
+    Correct the `path` argument in [**Detector\detector.yaml**](Detector/detector.yaml) as the path after previous preprocessing  
     <br>
   
   - Start training by using following command
     ```
-    python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\yolov9\detector.yaml --device 0 --batch-size 4 --epochs 50 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
+    python .\Detector\yolov9\train_dual.py --weights .\Detector\yolov9-c.pt --cfg .\Detector\yolov9\models\detect\yolov9-c.yaml --data .\Detector\detector.yaml --device 0 --batch-size 4 --epochs 50 --hyp .\Detector\yolov9\data\hyps\hyp.scratch-high.yaml --name yolov9-c --close-mosaic 15 --cos-lr
     ```
   
 💬 For more details about the `Detector` of our method, you can check [**here**](Detector/README.md).

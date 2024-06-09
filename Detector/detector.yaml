@@ -1,0 +1,9 @@
+# Path Setting
+path: C:\AICUP\Tracking_dataset  # dataset root dir
+train: train
+val: valid
+test:
+
+# Classes
+names:
+  0: Car
