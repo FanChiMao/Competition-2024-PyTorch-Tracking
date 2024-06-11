@@ -15,12 +15,26 @@ manually search through surveillance recordings to track the paths and trajector
 or pedestrians. 
 
 
-[![report](https://img.shields.io/badge/Supplementary-Report-yellow)]()
+<a href="https://drive.google.com/file/d/1R9cXLtyijhVXcgvXh2ZYZggUlAjywn9C/view?usp=sharing" target="_blank">
+  <img src="https://img.shields.io/badge/Supplementary-Report_EN-yellow" alt="Report-en">
+</a>
+
+<a href="https://drive.google.com/file/d/1IJ3NWxrJNsn76fkYHE5wFjvlnpphYsmE/view?usp=sharing" target="_blank">
+  <img src="https://img.shields.io/badge/Supplementary-Report_CH-yellow" alt="Report-ch">
+</a>
+
 <a href="https://colab.research.google.com/drive/1c9WrlZB4_OPnpzf22jhei6grAo9_VLoe?usp=sharing" target="_blank">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
 </a>
-[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic)]()
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/FanChiMao/Competition-2024-PyTorch-Tracking/total)]()
+
+<a href="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic" target="_blank">
+  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FCompetition-2024-PyTorch-Tracking&label=visitors&countColor=%232ccce4&style=plastic" alt="Visitors">
+</a>
+
+<a href="https://img.shields.io/github/downloads/FanChiMao/Competition-2024-PyTorch-Tracking/total" target="_blank">
+  <img src="https://img.shields.io/github/downloads/FanChiMao/Competition-2024-PyTorch-Tracking/total" alt="Download">
+</a>
+
 
 
 ## 🎉 This work earn the 2nd place among 286 participated teams
@@ -76,7 +90,7 @@ or pedestrians.
 <a href="https://imgur.com/QBq40de"><img src="https://i.imgur.com/QBq40de.png" title="source: imgur.com" /></a>
 
 
-## 👀 Design the Tracker for low frame-rate tracking
+[//]: # (## 👀 Design the Tracker for low frame-rate tracking)
 
 [//]: # (TODO)
 
