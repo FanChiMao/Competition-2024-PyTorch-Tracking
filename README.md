@@ -3,6 +3,10 @@
 📹 **Extremely low frame-rate (1 fps) video object tracking challenge**  
 
 ## TEAM_5045: Kelvin, Jonathan, Sam, Henry, Harry  
+> This project is developed by the Product R&D Department of the Digital Image Technology Division at ASUS Computer Inc. AI Solution Business Unit.
+
+---
+
 - [**AI 驅動出行未來：跨相機多目標車輛追蹤競賽 － 模型組**](https://tbrain.trendmicro.com.tw/Competitions/Details/33)  
   
 <a href="https://tbrain.trendmicro.com.tw/Competitions/Details/33"><img src="https://i.imgur.com/3nfLbdW.png" title="source: imgur.com" /></a>  
@@ -15,11 +19,11 @@ manually search through surveillance recordings to track the paths and trajector
 or pedestrians. 
 
 
-<a href="https://drive.google.com/file/d/1R9cXLtyijhVXcgvXh2ZYZggUlAjywn9C/view?usp=sharing" target="_blank">
+<a href="https://drive.google.com/file/d/1QTJYdmQ3_8ppwGKZ8fVVssbLCv1NZZKb/view?usp=sharing" target="_blank">
   <img src="https://img.shields.io/badge/Supplementary-Report_EN-yellow" alt="Report-en">
 </a>
 
-<a href="https://drive.google.com/file/d/1IJ3NWxrJNsn76fkYHE5wFjvlnpphYsmE/view?usp=sharing" target="_blank">
+<a href="https://drive.google.com/file/d/1Lzh9F76LVzpfDlPsITBbl5rvRX9_pFtB/view?usp=sharing" target="_blank">
   <img src="https://img.shields.io/badge/Supplementary-Report_CH-yellow" alt="Report-ch">
 </a>
 
