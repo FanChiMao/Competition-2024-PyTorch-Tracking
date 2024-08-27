@@ -42,6 +42,13 @@ or pedestrians.
 
 
 ## 🎉 This work earn the 2nd place among 286 participated teams
+
+
+<details>
+  <summary><b>Award 🏆</b></summary>
+<a href="https://imgur.com/9RPgk64"><img src="https://i.imgur.com/9RPgk64.jpg" title="source: imgur.com" /></a>
+</details>
+
 <details>
   <summary><b>LeaderBoard 🎖️</b></summary>
 <a href="https://imgur.com/j5BbnzQ"><img src="https://i.imgur.com/j5BbnzQ.png" title="source: imgur.com" /></a>
